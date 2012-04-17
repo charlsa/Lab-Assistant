@@ -40,38 +40,38 @@ gpibObj = gpib('ni', 0, Addrss); % GPIB('VENDOR',BOARDINDEX,PRIMARYADDRESS)
 end
 
 
-function voltage_callback (callback_object, votage, gpibObj)
+function voltage_callback (callback_object, ~, gpibObj)
 fopen(gpibObj);
 
 fprintf(gpibObj, '*CLS'); % FPRINTF(FID,FORMAT,A,...)
 
-Volt = ['VOLT ' num2str(V)]; % Volt = 'VOLT value', from int to string 
+Volt = ['VOLT ' get(callback_object,'string')]; % Volt = 'VOLT value', from int to string 
 
 
-fprintf(gpibObj, Output);
+fprintf(gpibObj, Volt);
 fclose(gpibObj); 
 
 end
 
-function current_callback (callback_object, current, gpibObj)
+function current_callback (callback_object, ~, gpibObj)
 fopen(gpibObj);
 
 fprintf(gpibObj, '*CLS'); % FPRINTF(FID,FORMAT,A,...)
-Current = ['CURR ' num2str(current)]; % to string 
+Current = ['CURR ' get(callback_object,'string')]; % to string 
 
-fprintf(gpibObj, Output);
+fprintf(gpibObj, Current);
 fclose(gpibObj);
 end
 
-function output_callback (callback_object, gpibObj)
+function output_callback (callback_object, ~, gpibObj)
 fopen(gpibObj);
 fprintf(gpibObj, '*CLS'); % FPRINTF(FID,FORMAT,A,...)
 
 if(strcmp(get(callback_object,'string'), 'Output On'))
-   Output = 'OUTP OFF' ;
+   Output = 'OUTP ON' ;
    set(callback_object,'string', 'Output Off');
 
-elseif(strcmp(get(callback_object,'string'), 'Output Ooff'))
+elseif(strcmp(get(callback_object,'string'), 'Output Off'))
    Output = 'OUTP OFF' ;
    set(callback_object,'string', 'Output On');
    
