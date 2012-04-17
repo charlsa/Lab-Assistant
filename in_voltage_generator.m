@@ -1,7 +1,9 @@
-function VoltaqeGenerator
+function in_voltage_generator(in_panel)
 % Addrss Voltage generator
 Addrss = 3;
+gpibObj = 0;
 gpibObj = gpib('ni', 0, Addrss); % GPIB('VENDOR',BOARDINDEX,PRIMARYADDRESS)
+
 %textruta 1... 'callback', @voltage_callback;) 
 
     % Controls for function generator

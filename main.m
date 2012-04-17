@@ -6,12 +6,12 @@ function main
     
     
     % Create Input selector
+    in_panel = uipanel('Title','Input','Position',[0 0 0.25 0.95]);
+
     uicontrol('Style', 'popup',...
            'String', 'Input|Function Generator|Voltage Generator',...
            'Position', [100 660 200 50],...
-           'Callback', @in_callback); 
-
-    in_panel = uipanel('Title','Input','Position',[0 0 0.25 0.95]);
+           'Callback', {@in_callback, in_panel}); 
 
     % Create output selector
     uicontrol('Style', 'popup',...
@@ -25,19 +25,15 @@ function main
     %...
     
     % Create export selector
+    export_panel = uipanel('Title','Export','Position',[0.75 0 0.25 0.95]);          
+
     uicontrol('Style', 'popup',...
            'String', 'Export|LaTeX|Dropbox|Facebook',...
            'Position', [1100 660 200 50],...
-           'Callback', @export_callback);
+           'Callback', {@export_callback,export_panel});
 
-    export_panel = uipanel('Title','Export','Position',[0.75 0 0.25 0.95]);          
 
-    % Controls for Latex figure export
     
-    a = uicontrol('Style', 'pushbutton',...
-        'String', 'Export',...
-        'position', [1000 100 100 25],...
-        'callback', @save);
 
 end
 
@@ -46,13 +42,16 @@ function save(~,~)
     
 end
 
-function in_callback(callback_object, ~)
+function in_callback(callback_object, ~, in_panel)
      str = get(callback_object, 'String');
      val = get(callback_object,'Value');
-     disp(str(val));
+     disp(val);
      
-     if(val == 2)
-         in_function_generator;
+     switch (val)
+         case 3
+             in_voltage_generator(in_panel);
+         case 2
+             in_function_generator;
      end
 end
 
@@ -62,8 +61,12 @@ function out_callback(callback_object, ~)
          disp(str(val));
 end
 
-function export_callback(callback_object, ~)
+function export_callback(callback_object, ~, export_panel)
          str = get(callback_object, 'String');
          val = get(callback_object,'Value');
          disp(str(val));
+         
+         if(val == 2)
+         export_latex(export_panel);
+         end
 end
