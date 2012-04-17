@@ -13,23 +13,22 @@ function main
            'Position', [100 660 200 50],...
            'Callback', {@in_callback, in_panel}); 
 
+       
     % Create output selector
+    out_panel = uipanel('Title','Output','Position',[0.25 0 0.5 0.95]);
+    
+    
     uicontrol('Style', 'popup',...
            'String', 'Output|Oscilloscope Screen|Multimeter|Transfer Function',...
            'Position', [500 660 200 50],...
-           'Callback', @out_callback); 
-
-    out_panel = uipanel('Title','Output','Position',[0.25 0 0.5 0.95]);   
-
-    % Controls for oscilloscope picture
-    %...
-    
+           'Callback', {@out_callback, out_panel}); 
+   
     % Create export selector
     export_panel = uipanel('Title','Export','Position',[0.75 0 0.25 0.95]);          
 
     uicontrol('Style', 'popup',...
            'String', 'Export|LaTeX|Dropbox|Facebook',...
-           'Position', [1100 660 200 50],...
+           'Position', [1000 660 200 50],...
            'Callback', {@export_callback,export_panel});
 
 
@@ -55,10 +54,14 @@ function in_callback(callback_object, ~, in_panel)
      end
 end
 
-function out_callback(callback_object, ~)
+function out_callback(callback_object, ~, out_panel)
          str = get(callback_object, 'String');
          val = get(callback_object,'Value');
          disp(str(val));
+         
+         if(val == 2)
+         out_oscilloscope_picture(out_panel);
+         end
 end
 
 function export_callback(callback_object, ~, export_panel)
