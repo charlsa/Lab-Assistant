@@ -1,6 +1,6 @@
 function in_voltage_generator(in_panel)
 % Addrss Voltage generator
-Addrss = 3;
+Addrss = 1;
 gpibObj = 0;
 gpibObj = gpib('ni', 0, Addrss); % GPIB('VENDOR',BOARDINDEX,PRIMARYADDRESS)
 
@@ -21,7 +21,7 @@ gpibObj = gpib('ni', 0, Addrss); % GPIB('VENDOR',BOARDINDEX,PRIMARYADDRESS)
 
     uicontrol('Style', 'text',...
         'parent', in_panel,...
-        'string', 'Amplitude [V]:',...
+        'string', 'Current limit [A]:',...
         'position', [50 550 100 20]);
     
     uicontrol('Style', 'edit',...
