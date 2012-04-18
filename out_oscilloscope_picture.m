@@ -1,8 +1,8 @@
 function out_oscilloscope_picture(out_panel)
-scope = gpib('ni',0,7);
+scope = gpib('ni',0,4);
 
 scope.InputBufferSize = 100000;    % specify the input buffer size. If the scanned image is not full then one may be required to increase this.
-scope.TimeOut = 60;                % specify sufficient timeout so that read operations do not timeout.            
+scope.TimeOut = 20;                % specify sufficient timeout so that read operations do not timeout.            
 fopen(scope);
 
 fprintf(scope,'HARDCOPY:PORT GPIB');pause(0.1); % SCPI COMMANDS FOR CAPTURING AN IMAGE.
@@ -21,15 +21,14 @@ fclose(scope);
  fclose(fid);
  
     a = imread('bild.bmp','bmp'); % If viewer wants to see image then scan the image and display it.
-    a = imrotate(a,-90);
+    %a = imrotate(a,-90);
     
     
-    tmp_figure = figure('Visible', 'Off');
+tmp_figure = figure('Visible', 'Off', 'position', [1 1 480 640]);
 imagesc(a);
+axis off;
 copyobj(get(tmp_figure,'Children'),out_panel);
 close(tmp_figure);
-    
-        
-    colormap(bone);
+colormap(bone);
         
 end
