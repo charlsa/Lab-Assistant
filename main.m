@@ -40,7 +40,7 @@ function in_callback(callback_object, ~, in_panel)
          case 3
              in_voltage_generator(in_panel);
          case 2
-             in_function_generator;
+             in_function_generator(in_panel);
      end
 end
 
