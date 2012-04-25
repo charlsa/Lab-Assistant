@@ -1,66 +1,81 @@
 function in_function_generator(in_panel)
-Addrss = 12;
-gpibObj = 0;
-%gpibObj = gpib('ni', 0, Addrss);
-    
-    % Controls for function generator
-    uicontrol('Style', 'popup',... 
+% Controls for function generator
+    parameters.wave = uicontrol('Style', 'popup',... 
         'String', 'Waveform|Sine|Square|Triangle|Sawtooth',...
         'parent', in_panel,...
-        'Position', [50 650 100 20],...
-        'Callback', {@signal_callback,gpibObj}); 
+        'Position', [50 650 100 20]); 
 
     uicontrol('Style', 'text',...
         'parent', in_panel,...
         'string', 'Frequency [Hz]:',...
         'position', [50 600 100 20]);
     
-    uicontrol('Style', 'edit',...
+    parameters.frequency = uicontrol('Style', 'edit',...
         'parent', in_panel,...
-        'string', '5',...
+        'string', '100',...
         'BackgroundColor', 'white',...
-        'position', [150 600 50 25],...
-        'callback', {@frequency_callback,gpibObj});
+        'position', [150 600 50 25]);
 
     uicontrol('Style', 'text',...
         'parent', in_panel,...
         'string', 'Amplitude [V]:',...
         'position', [50 550 100 20]);
     
-    uicontrol('Style', 'edit',...
-        'parent', in_panel,...
-        'string', '5',...
+    parameters.amplitude = uicontrol('Style', 'edit',...
+		'parent', in_panel,...
+        'string', '3',...
         'BackgroundColor', 'white',...
-        'position', [150 550 50 25],...
-        'callback', {@amplitude_callback,gpibObj});
+        'position', [150 550 50 25]);
 
     uicontrol('Style', 'text',...
         'parent', in_panel,...
         'string', 'Offset [V]:',...
         'position', [50 500 100 20]);
     
-    uicontrol('Style', 'edit',...
+    parameters.offset = uicontrol('Style', 'edit',...
         'parent', in_panel,...
-        'string', '5',...
+        'string', '0',...
         'BackgroundColor', 'white',...
-        'position', [150 500 50 25],...
-        'callback', {@offset_callback,gpibObj});
+        'position', [150 500 50 25]);
+    
+    uicontrol('Style', 'text',...
+		'parent', in_panel,...
+        'string', 'GPIB-address:',...
+        'position', [50 450 100 20]);
+    
+    parameters.gpibAddress = uicontrol('Style', 'edit',...
+        'parent', in_panel,...
+        'string', '0',...
+        'BackgroundColor', 'white',...
+        'position', [150 450 50 25]);
+    
+     parameters.gpibConnection = uicontrol('Style', 'text',...
+        'parent', in_panel,...
+        'string', '',...
+        'position', [200 450 50 25]);
     
     uicontrol('Style', 'pushbutton',...
         'parent', in_panel,...
-        'string', 'Output On',...
-        'position', [50 450 100 20],...
-        'callback', {@output_callback,gpibObj});
-    
+        'string', 'Set',...
+        'position', [50 400 100 20],...
+        'callback', {@set_callback,parameters});
 end
 
-function signal_callback(callback_object, ~, gpibObj)
-     choice = get(callback_object,'Value');
-     
-     fopen(gpibObj);
-     
-     fprintf(gpibObj, '*CLS');
-     
+function set_callback (~, ~, parameters)
+fclose(instrfind);
+
+address = str2num(get(parameters.gpibAddress,'string'));
+gpibObj = gpib('ni', 0, address);
+
+try 
+    fopen(gpibObj);
+    set(parameters.gpibConnection,'string' ,'GPIB Connected');
+    set(parameters.gpibAddress,'BackgroundColor' ,'white');
+
+    fprintf(gpibObj, '*CLS'); % FPRINTF(FID,FORMAT,A,...)
+    
+    %%% set waveform
+     choice = get(parameters.wave,'Value');  
      switch (choice)
          case 1
              waveform = 'nothing';
@@ -74,60 +89,28 @@ function signal_callback(callback_object, ~, gpibObj)
              waveform = 'FUNC RAMP';
      end
      fprintf(gpibObj, waveform);
+    %%%
      
-     fclose(gpibObj);
+    %%%% set frequeny
+     Freq = ['FREQ ' get(parameters.frequency,'string')]; % Volt = 'VOLT value', from int to string 
+     fprintf(gpibObj, Freq);
+    %%%%
+    
+    %%%%% set amplitude
+     Amp = ['VOLT ' get(parameters.amplitude,'string')]; % Volt = 'VOLT value', from int to string 
+     fprintf(gpibObj, Amp);
+    %%%%%
+    
+    %%%%%% set offset
+     Offset = ['VOLT:OFFS ' get(parameters.offset,'string')]; % Volt = 'VOLT value', from int to string 
+     fprintf(gpibObj, Offset);
+    %%%%%% 
+    
+     fclose(gpibObj); 
+ 
+catch err
+    set(parameters.gpibConnection,'string' ,'GPIB Disconnected');
+    set(parameters.gpibAddress,'BackgroundColor' ,'red');
 end
 
-function frequency_callback (callback_object, ~, gpibObj)
-fopen(gpibObj);
-
-fprintf(gpibObj, '*CLS'); % FPRINTF(FID,FORMAT,A,...)
-
-Freq = ['FREQ ' get(callback_object,'string')]; % Volt = 'VOLT value', from int to string 
-
-
-fprintf(gpibObj, Freq);
-fclose(gpibObj); 
-end
-
-function amplitude_callback (callback_object, ~, gpibObj)
-fopen(gpibObj);
-
-fprintf(gpibObj, '*CLS'); % FPRINTF(FID,FORMAT,A,...)
-
-Amp = ['VOLT ' get(callback_object,'string')]; % Volt = 'VOLT value', from int to string 
-
-
-fprintf(gpibObj, Amp);
-fclose(gpibObj); 
-end
-
-function output_callback (callback_object, ~, gpibObj)
-fopen(gpibObj);
-fprintf(gpibObj, '*CLS'); % FPRINTF(FID,FORMAT,A,...)
-
-if(strcmp(get(callback_object,'string'), 'Output On'))
-   Output = 'ON' ;
-   set(callback_object,'string', 'Output Off');
-
-elseif(strcmp(get(callback_object,'string'), 'Output Off'))
-   Output = 'OFF' ;
-   set(callback_object,'string', 'Output On');
-   
-end
-
-fprintf(gpibObj, Output);
-fclose(gpibObj); 
-end
-
-function offset_callback (callback_object, ~, gpibObj)
-fopen(gpibObj);
-
-fprintf(gpibObj, '*CLS'); % FPRINTF(FID,FORMAT,A,...)
-
-Offset = ['VOLT:OFFS ' get(callback_object,'string')]; % Volt = 'VOLT value', from int to string 
-
-
-fprintf(gpibObj, Offset);
-fclose(gpibObj); 
 end

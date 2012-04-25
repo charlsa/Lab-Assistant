@@ -35,15 +35,16 @@ function main
 end
 
 function in_callback(callback_object, ~, in_panel)
-    remove_children(in_panel);
-
-    val = get(callback_object,'Value');     
-    switch (val)
-        case 3
-            in_voltage_generator(in_panel);
-        case 2
-            in_function_generator(in_panel);
-    end
+     val = get(callback_object,'Value');
+     
+     switch (val)
+         case 4 
+             in_frequency_sweep(in_panel);
+         case 3
+             in_voltage_generator(in_panel);
+         case 2
+             in_function_generator(in_panel);
+     end
 end
 
 function out_callback(callback_object, ~, out_panel)
