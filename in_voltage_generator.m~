@@ -42,10 +42,7 @@ function in_voltage_generator(in_panel)
                                         'BackgroundColor', 'white',...
                                         'position', [150 500 50 25]);
                                     
-    parameters.gpibConnection = uicontrol('Style', 'text',...
-                                            'parent', in_panel,...
-                                            'string', '',...
-                                            'position', [200 500 100 25]);
+      
 
     uicontrol('Style', 'pushbutton',...
         'parent', in_panel,...
@@ -71,11 +68,9 @@ try
     gpibObj = gpib('ni', 0, address);
     gpibOpen = 1;
     set(parameters.gpibConnection,'string' ,'GPIB Connected');
-    set(parameters.gpibAddress,'BackgroundColor' ,'red');
 catch err 
     gpibOpen = 0;
     set(parameters.gpibConnection,'string' ,'GPIB NOT Connected');
-    set(parameters.gpibAddress,'BackgroundColor' ,'red');
 end
 
 

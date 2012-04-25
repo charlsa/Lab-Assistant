@@ -9,7 +9,7 @@ function main
     in_panel = uipanel('Title','Input','Position',[0 0 0.25 0.95]);
 
     uicontrol('Style', 'popup',...
-           'String', 'Input|Function Generator|Voltage Generator',...
+           'String', 'Input|Function Generator|Voltage Generator|Frequency Sweep',...
            'Position', [100 660 200 50],...
            'Callback', {@in_callback, in_panel}); 
 
@@ -37,6 +37,8 @@ function in_callback(callback_object, ~, in_panel)
      val = get(callback_object,'Value');
      
      switch (val)
+         case 4 
+             in_frequency_sweep(in_panel);
          case 3
              in_voltage_generator(in_panel);
          case 2
