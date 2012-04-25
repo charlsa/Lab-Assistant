@@ -1,12 +1,5 @@
 function in_voltage_generator(in_panel)
-% Addrss Voltage generator
-%Addrss = 1;
-%gpibObj = 0;
-%gpibObj = gpib('ni', 0, Addrss); % GPIB('VENDOR',BOARDINDEX,PRIMARYADDRESS)
-
-%textruta 1... 'callback', @voltage_callback;) 
-
-    % Controls for function generator
+% Controls for function generator
     uicontrol('Style', 'text',...
         'parent', in_panel,...
         'string', 'Voltage [V]:',...
@@ -38,7 +31,7 @@ function in_voltage_generator(in_panel)
     
     parameters.gpibAddress = uicontrol('Style', 'edit',...
                                         'parent', in_panel,...
-                                        'string', '5',...
+                                        'string', '0',...
                                         'BackgroundColor', 'white',...
                                         'position', [150 500 50 25]);
                                     
@@ -61,66 +54,63 @@ function in_voltage_generator(in_panel)
      
 end
 
-
 function set_callback (~, ~, parameters)
+fclose(instrfind);
 
-gpibOpen = 0;
-address = get(parameters.gpibAddress,'string');
+address = str2num(get(parameters.gpibAddress,'string'));
+gpibObj = gpib('ni', 0, address);
 
 try 
-    gpibObj = gpib('ni', 0, address);
-    gpibOpen = 1;
-    set(parameters.gpibConnection,'string' ,'GPIB Connected');
-    set(parameters.gpibAddress,'BackgroundColor' ,'red');
-catch err 
-    gpibOpen = 0;
-    set(parameters.gpibConnection,'string' ,'GPIB NOT Connected');
-    set(parameters.gpibAddress,'BackgroundColor' ,'red');
-end
-
-
-if gpibOpen
-
     fopen(gpibObj);
+    set(parameters.gpibConnection,'string' ,'GPIB Connected');
+    set(parameters.gpibAddress,'BackgroundColor' ,'white');
 
     fprintf(gpibObj, '*CLS'); % FPRINTF(FID,FORMAT,A,...)
 
-    Volt = ['VOLT ' get(callback_object,'string')]; % Volt = 'VOLT value', from int to string 
-
-
+    Volt = ['VOLT ' get(parameters.voltage,'string')]; % Volt = 'VOLT value', from int to string
     fprintf(gpibObj, Volt);
+    
+    Current = ['CURR ' get(parameters.current,'string')]; % to string 
+    fprintf(gpibObj, Current);
+
     fclose(gpibObj); 
+    
+catch err
+    set(parameters.gpibConnection,'string' ,'GPIB Disconnected');
+    set(parameters.gpibAddress,'BackgroundColor' ,'red');
 end
 
 end
 
-function current_callback (callback_object, ~, gpibObj)
+function output_callback (callback_object, ~, parameters)
+fclose(instrfind);
 
-fopen(gpibObj);
+address = str2num(get(parameters.gpibAddress,'string'));
+gpibObj = gpib('ni', 0, address);
 
-fprintf(gpibObj, '*CLS'); % FPRINTF(FID,FORMAT,A,...)
-Current = ['CURR ' get(callback_object,'string')]; % to string 
+try
+    fopen(gpibObj);
+    fprintf(gpibObj, '*CLS'); % FPRINTF(FID,FORMAT,A,...)
+    
+    set(parameters.gpibConnection,'string' ,'GPIB Connected');
+    set(parameters.gpibAddress,'BackgroundColor' ,'white');
 
-fprintf(gpibObj, Current);
-fclose(gpibObj);
+    if(strcmp(get(callback_object,'string'), 'Output On'))
+       Output = 'OUTP ON' ;
+       set(callback_object,'string', 'Output Off');
+
+    elseif(strcmp(get(callback_object,'string'), 'Output Off'))
+       Output = 'OUTP OFF' ;
+       set(callback_object,'string', 'Output On');   
+    end
+
+    fprintf(gpibObj, Output);
+    fclose(gpibObj); 
+    
+catch err
+    set(parameters.gpibConnection,'string' ,'GPIB Disconnected');
+    set(parameters.gpibAddress,'BackgroundColor' ,'red');
 end
-
-function output_callback (callback_object, ~, gpibObj)
-fopen(gpibObj);
-fprintf(gpibObj, '*CLS'); % FPRINTF(FID,FORMAT,A,...)
-
-if(strcmp(get(callback_object,'string'), 'Output On'))
-   Output = 'OUTP ON' ;
-   set(callback_object,'string', 'Output Off');
-
-elseif(strcmp(get(callback_object,'string'), 'Output Off'))
-   Output = 'OUTP OFF' ;
-   set(callback_object,'string', 'Output On');
-   
-end
-
-fprintf(gpibObj, Output);
-fclose(gpibObj); 
     
 end
 
