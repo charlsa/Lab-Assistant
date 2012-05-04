@@ -56,7 +56,7 @@ function save(~,~,data)
 
         %Copy figure to clipboard
  		figure = open('figure.fig');
-        title(get(data.caption, 'String'));
+        title(get(data.title, 'String'));
         xlabel(get(data.xlabel, 'String'));
         ylabel(get(data.ylabel, 'String'));
 		print(figure, '-dmeta');
