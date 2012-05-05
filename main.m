@@ -7,7 +7,7 @@ function main
         'MenuBar', 'none',...
         'Resize', 'off');
 
-    gui.figure = subplot('Position', [0.3 0.3 0.4 0.4]);
+    gui.figure = subplot('Position', [0.33 0.2 0.35 0.35]);
     axis off;
     
     %Generate background image
