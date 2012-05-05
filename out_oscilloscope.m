@@ -1,7 +1,7 @@
 function out_oscilloscope(panel)
 
     parameters.measur = uicontrol('Style', 'popup',... 
-        'String', 'Measurement|Picture|True RMS|...|....',...
+        'String', 'Measurement|Picture',...
         'parent', panel,...
         'Position', [50 850 100 20]); 
 
@@ -12,7 +12,7 @@ function out_oscilloscope(panel)
 
     parameters.gpibAddress =  uicontrol('Style', 'edit',...
                 'parent', panel,...
-                'string', '0',...
+                'string', '13',...
                 'BackgroundColor', 'white',...
                 'position', [150 800 50 25]);
             
@@ -25,15 +25,17 @@ function out_oscilloscope(panel)
         'parent', panel,...
         'string', 'Start',...
         'position', [50 750 100 20],...
-        'callback', {@measurement_callback});
+        'callback', {@measurement_callback,parameters,panel});
      
 end
 
-function measurement_callback(~,panel)
+function measurement_callback(~,~,parameters,panel)
 
-     choice = get(panel.parameters.measur,'Value');
+     choice = get(parameters.measur,'Value');
      
      switch (choice)
+         case 1
+             oscilloscope_data( panel ,parameters );
          case 2
              oscilloscope_picture(panel, parameters);
          case 3
@@ -71,71 +73,78 @@ end
     fwrite(fid,out,'uint8');       % write the read data from the scope to the specified bmp file.
     fclose(fid);
     
-    a = imread('bild.bmp','bmp'); % If viewer wants to see image then scan the image and display it.
-    %a = imrotate(a,-90);
+    %figur=plot(out)
     
-    tmp_figure = figure('Visible', 'OFF', 'position', [1 1 480 640]);
-    imagesc(a);
+    imagesc(imread('bild.bmp','bmp'));
     axis off;
-    copyobj(get(tmp_figure,'Children'),panel);
-    close(tmp_figure);
     colormap(bone);
-    disp('klar');
+    
+    tmp_fig=figure(11);
+    imagesc(imread('bild.bmp','bmp'));
+    colormap(bone);
+    axis off;
+    
+    saveas(tmp_fig, 'figur', 'fig');
+    close(tmp_fig);
  
 end
 
-function datatrans( address )
+function oscilloscope_data( panel ,parameters )
 clc;
-scope = gpib('ni',0,address);      % define scope object
-scope.InputBufferSize = 10000;    % specify the input buffer size. If the scanned image is not full then one may be required to increase this.
-scope.TimeOut = 5;                % specify sufficient timeout so that read operations do not timeout.            
-fopen(scope);
+address = str2num(get(parameters.gpibAddress,'string')); %get address
+gpibObj = gpib('ni',0,address);      % define scope object
+gpibObj.InputBufferSize = 10000;    % specify the input buffer size. If the scanned image is not full then one may be required to increase this.
+gpibObj.TimeOut = 10;                % specify sufficient timeout so that read operations do not timeout.            
+fopen(gpibObj);
 
-fprintf(scope, '*CLS');
-fprintf(scope, 'CH1:POSITION?');
-pos1=fscanf(scope) ;			
-fprintf(scope, 'HORIZONTAL:SCALE?'); %time scale		
-tid=fscanf(scope)
-fprintf(scope, 'HORIZONTAL:SCALE?'); %get time a second time because first time is crap sometimes
-tid=fscanf(scope)
-fprintf(scope, 'CH1:VOLTS?'); 	% voltage scale
-amp=fscanf(scope)
-fprintf(scope, 'Data:Source CH1'); 	%channel 1 is chosed
-fprintf(scope, 'Data:Encdg SRPbinary'); 		% Talformatet se vidare manual för oscilloskopet sid 2-69
-fprintf(scope, 'Data:Width 1'); % Antal bytes per datapunkt.
-fprintf(scope, 'Data:Start 1'); % Starta överföringen med punkt 1 på kurvan.
-fprintf(scope, 'Curve?') 		% Överför kurvan
-data = (fread(scope, 2500));	% Läs överförd data
+fprintf(gpibObj, '*CLS');
+fprintf(gpibObj, 'CH1:POSITION?');
+pos1=fscanf(gpibObj) ;			
+fprintf(gpibObj, 'HORIZONTAL:SCALE?'); %time scale		
+tid=fscanf(gpibObj)
+fprintf(gpibObj, 'HORIZONTAL:SCALE?'); %get time a second time because first time is crap sometimes
+tid=fscanf(gpibObj)
+fprintf(gpibObj, 'CH1:VOLTS?'); 	% voltage scale
+amp=fscanf(gpibObj)
+fprintf(gpibObj, 'Data:Source CH1'); 	%channel 1 is chosed
+fprintf(gpibObj, 'Data:Encdg SRPbinary'); 		% Talformatet se vidare manual fÃ¶r oscilloskopet sid 2-69
+fprintf(gpibObj, 'Data:Width 1'); % Antal bytes per datapunkt.
+fprintf(gpibObj, 'Data:Start 1'); % Starta Ã¶verfÃ¶ringen med punkt 1 pÃ¥ kurvan.
+fprintf(gpibObj, 'Curve?') 		% Ã–verfÃ¶r kurvan
+data = (fread(gpibObj, 2500));	% LÃ¤s Ã¶verfÃ¶rd data
 
-fprintf(scope, '*CLS');%clear status data
-fprintf(scope, 'CH2:POSITION?');
-pos2=fscanf(scope) ;			%  slask, du behöver enbart skriva fscan(g) här för att väcka inst. ?! Bugg?
-fprintf(scope, 'CH2:VOLTS?'); 	
-amp2=fscanf(scope)
-fprintf(scope, 'Data:Source CH2'); 	% channel 2 is chosed
-fprintf(scope, 'Data:Encdg SRPbinary'); 		% Talformatet se vidare manual för oscilloskopet sid 2-69
-fprintf(scope, 'Data:Width 1'); % Number of bytes per data point.
-fprintf(scope, 'Data:Start 1'); % Start transfer at data point 1 om the curve.
-fprintf(scope, 'Curve?') 		% Överför kurvan
-data2 = (fread(scope, 2500));	% Läs överförd data
+fprintf(gpibObj, '*CLS');%clear status data
+fprintf(gpibObj, 'CH2:POSITION?');
+pos2=fscanf(gpibObj) ;			%  slask, du behÃ¶ver enbart skriva fscan(g) hÃ¤r fÃ¶r att vÃ¤cka inst. ?! Bugg?
+fprintf(gpibObj, 'CH2:VOLTS?'); 	
+amp2=fscanf(gpibObj)
+fprintf(gpibObj, 'Data:Source CH2'); 	% channel 2 is chosed
+fprintf(gpibObj, 'Data:Encdg SRPbinary'); 		% Talformatet se vidare manual fÃ¶r oscilloskopet sid 2-69
+fprintf(gpibObj, 'Data:Width 1'); % Number of bytes per data point.
+fprintf(gpibObj, 'Data:Start 1'); % Start transfer at data point 1 om the curve.
+fprintf(gpibObj, 'Curve?') 		% Ã–verfÃ¶r kurvan
+data2 = (fread(gpibObj, 2500));	% LÃ¤s Ã¶verfÃ¶rd data
 
-gpibclose(scope);
+fclose(gpibObj);
+delete(gpibObj);
 
 t=str2double(tid(9:15));
 t_vec=(t/250:t/250:t*10);
 
 a=str2double(amp(9:16));
-data=(data-127.5)*a/25;                 %delar med 25=200/8 som är antalet pixlar per ruta (wigertz konstant)
+data=(data-127.5)*a/25;                 %delar med 25=200/8 som Ã¤r antalet pixlar per ruta (wigertz konstant)
 a2=str2double(amp2(9:16));
 data2=(data2-127.5)*a2/25;
          
 if data2                            %check if data2 was measured correctly
     figure=plot(t_vec(15:2500),data2(15:2500)); 
+    ylabel('Voltage [V]');
+    xlabel('Time [t]');
     hold on
 end
 
 if data
-figure=plot(t_vec(15:2500),data(15:2500));
+    figure=plot(t_vec(15:2500),data(15:2500));
 end
 
 saveas(figure, 'figur.fig')
