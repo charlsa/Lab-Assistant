@@ -1,12 +1,15 @@
 function main
 
 
-    gui.figure = figure('Name','Lab Assistant',...
+    figure('Name','Lab Assistant',...
         'Position', [100 100 1000 700],...
         'ToolBar', 'none',...
         'MenuBar', 'none',...
         'Resize', 'off');
 
+    gui.figure = subplot('Position', [0.3 0.3 0.4 0.4]);
+    axis off;
+    
     %Generate background image
     bg_axes = axes('units','normalized','position',[0 0 1 1]);
     uistack(bg_axes,'bottom');
@@ -21,7 +24,7 @@ function main
         'HighlightColor', [0 0.7 0.2]);
     
     gui.outMenu = uicontrol('Style', 'popup',...
-           'String', 'Output|Oscilloscope|Multimeter|Transfer Function|Bode Graf',...
+           'String', 'Output|Oscilloscope|Multimeter|Transfer Function|Bode Graph',...
            'Position', [400 645 200 50],...
            'Callback', {@out_callback, gui}); 
     
@@ -60,8 +63,8 @@ function in_callback(callback_object, ~, gui)
              remove_children(gui.out_panel);
              set(gui.outMenu,'Value',5);
              set(gui.outMenu, 'Enable', 'off');
-             out_bodegraf(gui.out_panel);
-             in_frequency_sweep(gui.in_panel);  
+             out_bodegraph(gui.out_panel);
+             in_frequency_sweep(gui);  
          case 3
              if(strcmp(get(gui.outMenu,'Enable'), 'off'))
                  set(gui.outMenu,'Enable', 'on')
@@ -87,7 +90,7 @@ function out_callback(callback_object, ~, gui)
         case 4
             
         case 5
-            out_bodegraf(gui.out_panel);
+            out_bodegraph(gui.out_panel);
     end
 %     if(val == 2)
 %         out_oscilloscope(gui.out_panel);
