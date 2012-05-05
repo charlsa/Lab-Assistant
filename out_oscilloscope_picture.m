@@ -15,12 +15,12 @@ end
 out = fread(scope,scope.BytesAvailable,'uint8');% read the binary output from the scope .
 fclose(scope);
 
- fid = fopen('bild.bmp','w');
+ fid = fopen('image.bmp','w');
  
  fwrite(fid,out,'uint8');       % write the read data from the scope to the specified bmp file.
  fclose(fid);
  
-    a = imread('bild.bmp','bmp'); % If viewer wants to see image then scan the image and display it.
+    a = imread('image.bmp','bmp');
     %a = imrotate(a,-90);
     
     
