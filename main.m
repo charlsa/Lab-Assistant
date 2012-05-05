@@ -1,70 +1,88 @@
 function main
-
+   
     screen_size = get(0,'ScreenSize');
     top = screen_size(4);
 
-    gui = figure('Name','Lab Assistant','Position', screen_size);
+    gui.figure = figure('Name','Lab Assistant','Position', screen_size);
     
+    % Create output selector
+    gui.out_panel = uipanel('Title','Output','Position',[0.25 0 0.5 0.95]);
+    
+    gui.outMenu = uicontrol('Style', 'popup',...
+           'String', 'Output|Oscilloscope|Multimeter|Transfer Function|Bode Graf',...
+           'Position', [500 top-120 200 50],...
+           'Callback', {@out_callback, gui}); 
     
     % Create Input selector
-    in_panel = uipanel('Title','Input','Position',[0 0 0.25 0.95]);
-
-    uicontrol('Style', 'popup',...
-           'String', 'Input|Function Generator|Voltage Generator',...
-           'Position', [90 top-110 200 50],...
-           'Callback', {@in_callback, in_panel})
-
+    gui.in_panel = uipanel('Title','Input','Position',[0 0 0.25 0.95]);  
        
-    % Create output selector
-    out_panel = uipanel('Title','Output','Position',[0.25 0 0.5 0.95]);
-    
-    uicontrol('Style', 'popup',...
-           'String', 'Output|Oscilloscope Screen|Multimeter|Transfer Function',...
-           'Position', [500 top-110 200 50],...
-           'Callback', {@out_callback, out_panel}); 
-   
-       
+    gui.inMenu = uicontrol('Style', 'popup',...
+           'String', 'Input|Function Generator|Voltage Generator|Frequency Sweep',...
+           'Position', [90 top-120 200 50],...
+           'Callback', {@in_callback, gui});
+
     % Create export selector
-    export_panel = uipanel('Title','Export','Position',[0.75 0 0.25 0.95]);          
+    gui.export_panel = uipanel('Title','Export','Position',[0.75 0 0.25 0.95]);          
 
-    uicontrol('Style', 'popup',...
+    gui.export = uicontrol('Style', 'popup',...
            'String', 'Export|Image|LaTeX|Dropbox|Facebook',...
-           'Position', [1050 top-110 200 50],...
-           'Callback', {@export_callback, export_panel});
+           'Position', [1050 top-120 200 50],...
+           'Callback', {@export_callback, gui});
 
 end
 
-function in_callback(callback_object, ~, in_panel)
+function in_callback(callback_object, ~, gui)
+     remove_children(gui.in_panel);
      val = get(callback_object,'Value');
-     
+    
      switch (val)
          case 4 
-             in_frequency_sweep(in_panel);
+             remove_children(gui.out_panel);
+             set(gui.outMenu,'Value',5);
+             set(gui.outMenu, 'Enable', 'off');
+             out_bodegraf(gui.out_panel);
+             in_frequency_sweep(gui.in_panel);  
          case 3
-             in_voltage_generator(in_panel);
+             if(strcmp(get(gui.outMenu,'Enable'), 'off'))
+                 set(gui.outMenu,'Enable', 'on')
+             end
+             in_voltage_generator(gui.in_panel);
          case 2
-             in_function_generator(in_panel);
-     end
+             if(strcmp(get(gui.outMenu,'Enable'), 'off'))
+                 set(gui.outMenu,'Enable', 'on')
+             end
+             in_function_generator(gui.in_panel);
+     end 
 end
 
-function out_callback(callback_object, ~, out_panel)
-    remove_children(out_panel);
+function out_callback(callback_object, ~, gui)
+    remove_children(gui.out_panel);
     
     val = get(callback_object,'Value'); 
-    if(val == 2)
-        out_oscilloscope_picture(out_panel);
+    switch (val)
+        case 2
+            out_oscilloscope(gui.out_panel);
+        case 3
+            
+        case 4
+            
+        case 5
+            out_bodegraf(gui.out_panel);
     end
+%     if(val == 2)
+%         out_oscilloscope(gui.out_panel);
+%     end
 end
 
-function export_callback(callback_object, ~, export_panel)
-    remove_children(export_panel);
+function export_callback(callback_object, ~, gui)
+    remove_children(gui.export_panel);
     
     val = get(callback_object,'Value');
 	switch (val)
         case 2
-            export_image(export_panel);
+            export_image(gui.export_panel);
         case 3
-            export_latex(export_panel);
+            export_latex(gui.export_panel);
 	end
 end
 
