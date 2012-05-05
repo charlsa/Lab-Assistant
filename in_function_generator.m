@@ -49,11 +49,6 @@ function in_function_generator(in_panel)
         'BackgroundColor', 'white',...
         'position', [150 450 50 25]);
     
-     parameters.gpibConnection = uicontrol('Style', 'text',...
-        'parent', in_panel,...
-        'string', '',...
-        'position', [200 450 50 25]);
-    
     uicontrol('Style', 'pushbutton',...
         'parent', in_panel,...
         'string', 'Set',...
@@ -62,20 +57,48 @@ function in_function_generator(in_panel)
 end
 
 function set_callback (~, ~, parameters)
-fclose(instrfind);
+%fclose(instrfind);
 
 address = str2num(get(parameters.gpibAddress,'string'));
 gpibObj = gpib('ni', 0, address);
 
 try 
     fopen(gpibObj);
-    set(parameters.gpibConnection,'string' ,'GPIB Connected');
     set(parameters.gpibAddress,'BackgroundColor' ,'white');
 
     fprintf(gpibObj, '*CLS'); % FPRINTF(FID,FORMAT,A,...)
     
-    %%% set waveform
-     choice = get(parameters.wave,'Value');  
+    %%%%% set waveform
+    signal(parameters.wave, gpibObj);
+    %%%%%
+    
+    %%%%% set offset
+     Offset = ['VOLT:OFFS ' get(parameters.offset,'string')]; % Volt = 'VOLT value', from int to string 
+     fprintf(gpibObj, Offset);
+    %%%%% 
+    
+    %%%%% set amplitude
+     Amp = ['VOLT ' get(parameters.amplitude,'string')]; % Volt = 'VOLT value', from int to string 
+     fprintf(gpibObj, Amp);
+    %%%%%
+     
+    %%%%% set frequeny
+     Freq = ['FREQ ' get(parameters.frequency,'string')]; % Volt = 'VOLT value', from int to string 
+     fprintf(gpibObj, Freq);
+    %%%%%
+   
+     fclose(gpibObj); 
+ 
+catch err
+    set(parameters.gpibAddress,'BackgroundColor' ,'red');
+end
+
+end
+
+function signal(wave, gpibObj)
+
+     choice = get(wave,'Value');
+         
      switch (choice)
          case 1
              waveform = 'nothing';
@@ -89,28 +112,4 @@ try
              waveform = 'FUNC RAMP';
      end
      fprintf(gpibObj, waveform);
-    %%%
-     
-    %%%% set frequeny
-     Freq = ['FREQ ' get(parameters.frequency,'string')]; % Volt = 'VOLT value', from int to string 
-     fprintf(gpibObj, Freq);
-    %%%%
-    
-    %%%%% set amplitude
-     Amp = ['VOLT ' get(parameters.amplitude,'string')]; % Volt = 'VOLT value', from int to string 
-     fprintf(gpibObj, Amp);
-    %%%%%
-    
-    %%%%%% set offset
-     Offset = ['VOLT:OFFS ' get(parameters.offset,'string')]; % Volt = 'VOLT value', from int to string 
-     fprintf(gpibObj, Offset);
-    %%%%%% 
-    
-     fclose(gpibObj); 
- 
-catch err
-    set(parameters.gpibConnection,'string' ,'GPIB Disconnected');
-    set(parameters.gpibAddress,'BackgroundColor' ,'red');
-end
-
 end
