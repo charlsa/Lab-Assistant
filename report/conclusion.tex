@@ -1,0 +1,21 @@
+%Om filen typsätts som del av hela rapporten så finns \master definierat i början och ingen \begin{document} och \end{document} får finnas, men för att kunna typsätta filen för sig är dem ett måste! \newcommand{\master}{} krävs i början på huvudrapporten!
+\ifdefined\master
+\else
+	\documentclass[twocolumn]{article}
+	\input{../preamble}
+	\begin{document}
+\fi
+%text goes here!
+
+
+
+
+
+
+
+
+
+\ifdefined\master
+\else
+	\end{document}
+\fi
