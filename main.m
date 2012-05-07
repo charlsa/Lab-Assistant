@@ -58,7 +58,7 @@ function main
     none_chosen(gui.export_panel);
 
     gui.export = uicontrol('Style', 'popup',...
-           'String', 'Export|Image|LaTeX|Clipboard|Word',...
+           'String', 'Export|Clipboard|Image|LaTeX|Word',...
            'Position', [770 645 200 50],...
            'Callback', {@export_callback, gui});
 
@@ -119,9 +119,13 @@ function export_callback(callback_object, ~, gui)
         case 1
             none_chosen(gui.export_panel);
         case 2
-            export_image(gui.export_panel);
+            export_clipboard(gui.export_panel);
         case 3
+            export_image(gui.export_panel);
+        case 4
             export_latex(gui.export_panel);
+        case 5
+            export_word(gui.export_panel);
 	end
 end
 
