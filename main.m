@@ -86,6 +86,9 @@ function in_callback(callback_object, ~, gui)
              end
              in_function_generator(gui.in_panel);
          case 1
+            if(strcmp(get(gui.outMenu,'Enable'), 'off'))
+                 set(gui.outMenu,'Enable', 'on')
+            end
             none_chosen(gui.in_panel);
      end 
 end
