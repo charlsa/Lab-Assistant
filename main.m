@@ -1,12 +1,15 @@
 function main
 
 
-    gui.figure = figure('Name','Lab Assistant',...
+    figure('Name','Lab Assistant',...
         'Position', [100 100 1000 700],...
         'ToolBar', 'none',...
         'MenuBar', 'none',...
         'Resize', 'off');
 
+    gui.figure = subplot('Position', [0.33 0.2 0.35 0.35]);
+    axis off;
+    
     %Generate background image
     bg_axes = axes('units','normalized','position',[0 0 1 1]);
     uistack(bg_axes,'bottom');
@@ -20,8 +23,11 @@ function main
         'BorderWidth', 2,...
         'HighlightColor', [0 0.7 0.2]);
     
+    %Put "choose"-text in panel
+    none_chosen(gui.out_panel);
+    
     gui.outMenu = uicontrol('Style', 'popup',...
-           'String', 'Output|Oscilloscope|Multimeter|Transfer Function|Bode Graf',...
+           'String', 'Output|Oscilloscope|Multimeter|Transfer Function|Bode Graph',...
            'Position', [400 645 200 50],...
            'Callback', {@out_callback, gui}); 
     
@@ -30,19 +36,26 @@ function main
         'BackgroundColor', 'w',...
         'BorderType', 'line',...
         'BorderWidth', 2,...
-        'HighlightColor', [0 0.7 0.2]);  
+        'HighlightColor', [0 0.7 0.2]);
+    
+    %Put "choose"-text in panel
+    none_chosen(gui.in_panel);
        
     gui.inMenu = uicontrol('Style', 'popup',...
            'String', 'Input|Function Generator|Voltage Generator|Frequency Sweep',...
            'Position', [30 645 200 50],...
            'Callback', {@in_callback, gui});
+   
 
     % Create export selector
     gui.export_panel = uipanel('Position',[0.75 0.01 0.24 0.94],...
         'BackgroundColor', 'w',...
         'BorderType', 'line',...
         'BorderWidth', 2,...
-        'HighlightColor', [0 0.7 0.2]);          
+        'HighlightColor', [0 0.7 0.2]);
+    
+    %Put "choose"-text in panel
+    none_chosen(gui.export_panel);
 
     gui.export = uicontrol('Style', 'popup',...
            'String', 'Export|Image|LaTeX|Clipboard|Word',...
@@ -60,8 +73,8 @@ function in_callback(callback_object, ~, gui)
              remove_children(gui.out_panel);
              set(gui.outMenu,'Value',5);
              set(gui.outMenu, 'Enable', 'off');
-             out_bodegraf(gui.out_panel);
-             in_frequency_sweep(gui.in_panel);  
+             out_bodegraph(gui.out_panel);
+             in_frequency_sweep(gui);  
          case 3
              if(strcmp(get(gui.outMenu,'Enable'), 'off'))
                  set(gui.outMenu,'Enable', 'on')
@@ -72,6 +85,8 @@ function in_callback(callback_object, ~, gui)
                  set(gui.outMenu,'Enable', 'on')
              end
              in_function_generator(gui.in_panel);
+         case 1
+            none_chosen(gui.in_panel);
      end 
 end
 
@@ -80,6 +95,8 @@ function out_callback(callback_object, ~, gui)
     
     val = get(callback_object,'Value'); 
     switch (val)
+        case 1
+            none_chosen(gui.out_panel);
         case 2
             out_oscilloscope(gui.out_panel);
         case 3
@@ -87,7 +104,7 @@ function out_callback(callback_object, ~, gui)
         case 4
             
         case 5
-            out_bodegraf(gui.out_panel);
+            out_bodegraph(gui.out_panel);
     end
 %     if(val == 2)
 %         out_oscilloscope(gui.out_panel);
@@ -99,6 +116,8 @@ function export_callback(callback_object, ~, gui)
     
     val = get(callback_object,'Value');
 	switch (val)
+        case 1
+            none_chosen(gui.export_panel);
         case 2
             export_image(gui.export_panel);
         case 3
