@@ -1,0 +1,110 @@
+%bra paket
+\documentclass[twocolumn]{article}
+\usepackage[utf8]{inputenc}
+%\usepackage[swedish]{babel}
+\usepackage{fancyhdr}
+%\usepackage{times}
+%\usepackage{alltt} %verbatim text med möjlighet till andra latexkommandon i.
+%\usepackage[usenames,dvipsnames]{color} %fler färger att välja på
+%\usepackage{wrapfig} %figurer som ligger sida vid sida med texten
+%\usepackage[table]{xcolor} %bakgrundsfärg i tabeller
+%\usepackage[small,compact]{titlesec} %Spara plats!!
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{float} %gör så att man kan placera bilder exakt mha [H]
+\usepackage[table]{xcolor} %bakgrundsfärg i tabeller
+
+\usepackage[ddmmyyyy]{datetime}
+
+\usepackage{setspace}
+%\usepackage[usenames,dvipsnames]{color} %fler färger att välja på
+%\usepackage{pdfpages} %för att kunna använda includepdf i appendix
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{positioning}
+\tikzset{
+    state/.style={
+           rectangle,
+           draw=black, thick,
+           minimum height=3em,
+           inner sep=5pt,
+           text centered,
+           },
+}
+
+% Different font in captions
+\newcommand{\captionfonts}{\em}
+\makeatletter  % Allow the use of @ in command names
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{{\captionfonts #1: #2}}%
+  \ifdim \wd\@tempboxa >\hsize
+    {\captionfonts #1: #2\par}
+  \else
+    \hbox to\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+\makeatother   % Cancel the effect of \makeatletter
+
+
+%marginaler
+\setlength\topmargin{0in}
+\setlength\headheight{11pt}
+\setlength\textheight{8.1in}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+\setlength\parindent{0in}
+\setlength\parskip{0in}
+\frenchspacing %Oui!
+
+%då kör vi
+
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%% Försättsblad %%%%%%%%%%%%%%%%%%%%%%%%
+\begin{titlepage}
+\title{\textbf{Electric lab-assistant} \\
+\Large{Engineering Applications using Matlab}\\
+\large{TNG016}}
+\author{
+\vspace{30pt}\\
+\large
+ED3:\bigskip \\
+\begin{tabular}{l l}
+	Dan	Helgesson & danhe046 \\
+	Albert Skog	& albsk635 \\
+	Karl Westerberg	& karwe772 \\
+\end{tabular}\vspace{40pt}\\
+Examiner: Qingxiang Zhao 
+}
+\date{Submitted: \today}
+\maketitle
+\thispagestyle{empty}
+\begin{center}
+
+
+\begin{figure}[b]
+	\begin{center}
+		\includegraphics[scale=0.6]{Figure/LIU-logo.jpg}
+	\end{center}
+\end{figure}
+
+\end{center}
+
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%% Header %%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+\fancyhead[l]{Engineering Applications using Matlab\\Electric lab-assistant}
+\fancyhead[r]{Dan Helgesson, Albert Skog\\ \& Karl Westerberg}
+
+%%%%%%%%%%%%%%%%%% Rapporten %%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+\section{functions}
+
+\section{} 
+\end{document}
