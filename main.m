@@ -23,6 +23,9 @@ function main
         'BorderWidth', 2,...
         'HighlightColor', [0 0.7 0.2]);
     
+    %Put "choose"-text in panel
+    none_chosen(gui.out_panel);
+    
     gui.outMenu = uicontrol('Style', 'popup',...
            'String', 'Output|Oscilloscope|Multimeter|Transfer Function|Bode Graph',...
            'Position', [400 645 200 50],...
@@ -33,19 +36,26 @@ function main
         'BackgroundColor', 'w',...
         'BorderType', 'line',...
         'BorderWidth', 2,...
-        'HighlightColor', [0 0.7 0.2]);  
+        'HighlightColor', [0 0.7 0.2]);
+    
+    %Put "choose"-text in panel
+    none_chosen(gui.in_panel);
        
     gui.inMenu = uicontrol('Style', 'popup',...
            'String', 'Input|Function Generator|Voltage Generator|Frequency Sweep',...
            'Position', [30 645 200 50],...
            'Callback', {@in_callback, gui});
+   
 
     % Create export selector
     gui.export_panel = uipanel('Position',[0.75 0.01 0.24 0.94],...
         'BackgroundColor', 'w',...
         'BorderType', 'line',...
         'BorderWidth', 2,...
-        'HighlightColor', [0 0.7 0.2]);          
+        'HighlightColor', [0 0.7 0.2]);
+    
+    %Put "choose"-text in panel
+    none_chosen(gui.export_panel);
 
     gui.export = uicontrol('Style', 'popup',...
            'String', 'Export|Image|LaTeX|Clipboard|Word',...
@@ -75,6 +85,8 @@ function in_callback(callback_object, ~, gui)
                  set(gui.outMenu,'Enable', 'on')
              end
              in_function_generator(gui.in_panel);
+         case 1
+            none_chosen(gui.in_panel);
      end 
 end
 
@@ -83,6 +95,8 @@ function out_callback(callback_object, ~, gui)
     
     val = get(callback_object,'Value'); 
     switch (val)
+        case 1
+            none_chosen(gui.out_panel);
         case 2
             out_oscilloscope(gui.out_panel);
         case 3
@@ -102,6 +116,8 @@ function export_callback(callback_object, ~, gui)
     
     val = get(callback_object,'Value');
 	switch (val)
+        case 1
+            none_chosen(gui.export_panel);
         case 2
             export_image(gui.export_panel);
         case 3
