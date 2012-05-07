@@ -85,7 +85,7 @@ function in_frequency_sweep(gui)
     
 end
 
-function sweepStart_callback(~,~, parameters, gui)
+function sweepStart_callback(~,~, parameters, ~)
 
 address = str2num(get(parameters.gpibAddress,'string'));
 gpibObjF = gpib('ni', 0, address);  % function generator
@@ -112,9 +112,9 @@ if(strcmp(multimeterConnect, 'OKEJ') && strcmp(freqgenConnect, 'OKEJ'))
         %Set frequency
         fprintf(gpibObjF,['FREQ ', num2str(n)]); 
 
-
         waitbar(mod(i,1),H,'Please wait while picture is loading!');
         i = i + 1/time;
+        
         %Take measurment
         fprintf(gpibObjM,'MEAS:VOLT:AC?');
         VOLT(a) = fscanf(gpibObjM,'%e');
@@ -174,7 +174,7 @@ catch err
     set(parameters.gpibAddress,'BackgroundColor' ,'red');
     out = 'ERROR';
     fclose(instrfind);
-    disp(err); % fel sÃ¶k
+    disp(err);
 end
 
 end
@@ -200,7 +200,7 @@ catch err
     set(multimeter.gpibAddress,'BackgroundColor' ,'red');
     out = 'ERROR';
     fclose(instrfind);
-    disp(err); % fel sÃ¶k
+    disp(err);
 end
 
 end
