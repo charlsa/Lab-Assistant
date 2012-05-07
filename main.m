@@ -27,7 +27,7 @@ function main
     none_chosen(gui.out_panel);
     
     gui.outMenu = uicontrol('Style', 'popup',...
-           'String', 'Output|Oscilloscope|Multimeter|Transfer Function|Bode Graph',...
+           'String', 'Output|Oscilloscope|Multimeter|Bode Graph',...
            'Position', [400 645 200 50],...
            'Callback', {@out_callback, gui}); 
     
@@ -71,7 +71,7 @@ function in_callback(callback_object, ~, gui)
      switch (val)
          case 4 
              remove_children(gui.out_panel);
-             set(gui.outMenu,'Value',5);
+             set(gui.outMenu,'Value',4);
              set(gui.outMenu, 'Enable', 'off');
              out_bodegraph(gui.out_panel);
              in_frequency_sweep(gui);  
@@ -100,15 +100,10 @@ function out_callback(callback_object, ~, gui)
         case 2
             out_oscilloscope(gui.out_panel);
         case 3
-            
+            out_multimeter(gui.out_panel);
         case 4
-            
-        case 5
             out_bodegraph(gui.out_panel);
     end
-%     if(val == 2)
-%         out_oscilloscope(gui.out_panel);
-%     end
 end
 
 function export_callback(callback_object, ~, gui)
