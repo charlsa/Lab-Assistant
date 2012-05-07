@@ -96,7 +96,7 @@ function export_latex(parent)
         
 end
 function save(~,~,data)
-    [fileName,pathName] = uiputfile('report.tex', 'Choose location...');
+    [fileName,pathName] = uiputfile('Report.tex', 'Choose location...');
     try
         outFile = fopen([pathName, fileName], 'wt');
 
