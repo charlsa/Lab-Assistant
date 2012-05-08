@@ -5,13 +5,16 @@
 	\begin{document}
 \fi
 
-The Lab-Assistant software proves that it indeed is possible to make lab work more effective by utilizing the power of Matlab to create a common user interface for commonly used equipment.
 
-The lab assistant is an very easy program to use, but it would be possible to make it easier with the GPIB addresses and setup.
-The program can always be more inproved with more functions and calculations. 
+The Lab-Assistant is easy to use, but it would be possible to make it even more user friendly by making more intelligent dialogues for connecting the GPIB-devices, enabling models from other vendors etcetera. Overall, more of the device functionalities can be brought into the software, focus during the project has been diversity rather than depth on this part.\\
+
+The program can always be improved with more functions and calculations. For example Matlab offers a lot of ways to modify colors, line types and other features of the obtained figure. Another way to go is adding different types of input methods beside GPIB, like serial or USB.\\
+
+An interesting issue is the matter of special cases such as the Bode plot generator, where one choice of the input reduces the number of available outputs to just one. How should this be solved in the user interface? Should the function generator pane have multiple modes, or should each mode have a different name in the input selection menu? The latter was chosen to highlight the dilemma and show a way to solve it; when the user chooses to perform a frequency sweep, Bode plot becomes the only output option available (for the sake of this argument, of course functionality could be developed for other output modes as well).\\
+%inte riktigt kanske men det låter ju bra =)
 
 
-
+It is indeed possible, as proven by the Lab-Assistant software, to make lab work more efficient by utilizing the power of Matlab to create a common user interface for commonly used equipment. Connecting control over multiple instruments with direct export of the results can definitely be done effectively on a PC.
 
 
 \ifdefined\master

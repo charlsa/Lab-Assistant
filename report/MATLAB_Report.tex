@@ -13,26 +13,13 @@
 \usepackage{multicol}
 \usepackage{graphicx}
 \usepackage{float} %gör så att man kan placera bilder exakt mha [H]
-\usepackage[table]{xcolor} %bakgrundsfärg i tabeller
+%\usepackage[table]{xcolor} %bakgrundsfärg i tabeller
 
 %\usepackage[ddmmyyyy]{datetime}
 
-\usepackage{setspace}
-%\usepackage[usenames,dvipsnames]{color} %fler färger att välja på
+%\usepackage{setspace}
+\usepackage[usenames,dvipsnames]{color} %fler färger att välja på
 %\usepackage{pdfpages} %för att kunna använda includepdf i appendix
-\usepackage{pgf}
-\usepackage{tikz}
-\usetikzlibrary{arrows,automata}
-\usetikzlibrary{positioning}
-\tikzset{
-    state/.style={
-           rectangle,
-           draw=black, thick,
-           minimum height=3em,
-           inner sep=5pt,
-           text centered,
-           },
-}
 
 % Different font in captions
 \newcommand{\captionfonts}{\em}
@@ -47,6 +34,40 @@
   \fi
   \vskip\belowcaptionskip}
 \makeatother   % Cancel the effect of \makeatletter
+
+
+%c++:
+\usepackage{listings}
+\definecolor{light-gray}{gray}{0.85}
+\lstset{
+language=TeX,                % choose the language of the code
+basicstyle=\ttfamily,       % the size of the fonts that are used for the code
+keywordstyle=\color{DarkOrchid},
+stringstyle=\color{blue},
+commentstyle=\color{OliveGreen},
+numbers=left,                   % where to put the line-numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+%stepnumber=2,                   % the step between two line-numbers. If it's 1 each line 
+                                % will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{light-gray},  % choose the background color. You must add \usepackage{color}
+%showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+%showtabs=false,                 % show tabs within strings adding particular underscores
+frame=single,	                % adds a frame around the code
+tabsize=1,	                % sets default tabsize
+%captionpos=b,                   % sets the caption-position to bottom
+%breaklines=true,                % sets automatic line breaking
+%breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+%title=\lstname,                 % show the filename of files included with \lstinputlisting;
+                                % also try caption instead of title
+%escapeinside={\%*}{*)},         % if you want to add a comment within your code
+%morekeywords={*,...}            % if you want to add more keywords to the set
+%extendedchars=false
+xleftmargin=15pt,
+framexleftmargin=0pt,
+framexrightmargin=5pt
+}
 
 
 %marginaler
@@ -128,5 +149,10 @@ The user interface of Lab-Assistant is designed to be intuitive and user-friendl
 
 \section{Conclusion}
 \input{conclusion}
+
+\onecolumn
+\appendix
+\section{Sample LaTeX output}
+\lstinputlisting{report.tex}
 
 \end{document}
