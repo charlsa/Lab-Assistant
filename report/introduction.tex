@@ -1,0 +1,27 @@
+%Om filen typsätts som del av hela rapporten så finns \master definierat i början och ingen \begin{document} och \end{document} får finnas, men för att kunna typsätta filen för sig är dem ett måste! \newcommand{\master}{} krävs i början på huvudrapporten!
+\ifdefined\master
+\else
+	\documentclass[twocolumn]{article}
+	%\input{../preamble}
+	\begin{document}
+\fi
+The personal computer is at the center of attention for a large portion of our daily lives. In electronics education and research it is used to write code, design and simulate circuits, take measurments and to write about the the results. This project focuses on the borderlands between the latter two; connecting lab equipment and results presentation.
+
+\subsection{Background}
+Doing lab work often includes tedious, repetitive and time-consuming tasks. Some times good solutions are lacking, for example when a large series of values need to be measured at different signal frequencies, or when students are encouraged to take photographs of the oscilloscope screen for presenting in lab reports.
+
+\subsection{Purpose}
+The goal of this project was to investigate weather Matlab could be used to create a common interface to speed up and streamline electronic lab tasks and documentation.
+
+\subsection{Method}
+Matlabs tools for graphical user interfaces were used in conjuction with the GPIB-bus to create software for controling both input and output of an experiment, aswell as  
+
+
+
+
+
+
+\ifdefined\master
+\else
+	\end{document}
+\fi

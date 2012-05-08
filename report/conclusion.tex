@@ -1,0 +1,20 @@
+%Om filen typsätts som del av hela rapporten så finns \master definierat i början och ingen \begin{document} och \end{document} får finnas, men för att kunna typsätta filen för sig är dem ett måste! \newcommand{\master}{} krävs i början på huvudrapporten!
+\ifdefined\master
+\else
+	\documentclass[twocolumn]{article}
+	\begin{document}
+\fi
+
+The Lab-Assistant software proves that it indeed is possible to make lab work more effective by utilizing the power of Matlab to create a common user interface for commonly used equipment.
+
+The lab assistant is an very easy program to use, but it would be possible to make it easier with the GPIB addresses and setup.
+The program can always be more inproved with more functions and calculations. 
+
+
+
+
+
+\ifdefined\master
+\else
+	\end{document}
+\fi

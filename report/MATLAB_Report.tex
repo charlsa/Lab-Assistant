@@ -15,7 +15,7 @@
 \usepackage{float} %gör så att man kan placera bilder exakt mha [H]
 \usepackage[table]{xcolor} %bakgrundsfärg i tabeller
 
-\usepackage[ddmmyyyy]{datetime}
+%\usepackage[ddmmyyyy]{datetime}
 
 \usepackage{setspace}
 %\usepackage[usenames,dvipsnames]{color} %fler färger att välja på
@@ -60,6 +60,9 @@
 \setlength\parskip{0in}
 \frenchspacing %Oui!
 
+%För att kunna typsätta delar för sig!
+\newcommand{\master}{}
+
 %då kör vi
 
 
@@ -98,13 +101,32 @@ Examiner: Qingxiang Zhao
 
 %%%%%%%%%%%%%%%%%%% Header %%%%%%%%%%%%%%%%%%%%%%%
 \pagestyle{fancy}
-\fancyhead[l]{Engineering Applications using Matlab\\Electric lab-assistant}
+\fancyhead[l]{Engineering Applications using Matlab\\Electric Lab-Assistant}
 \fancyhead[r]{Dan Helgesson, Albert Skog\\ \& Karl Westerberg}
+\fancyfoot[c]{}
+%%%%%%%%%%%%%%%%%%% Contents %%%%%%%%%%%%%%%%%%%%%
+\onecolumn
+\tableofcontents
+\clearpage
+\setcounter{page}{1}
+\fancyfoot[c]{\thepage}
+\twocolumn
+
 
 %%%%%%%%%%%%%%%%%% Rapporten %%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
+\input{introduction}
 
-\section{functions}
+\section{Lab-Assistant}
 
-\section{} 
+The user interface of Lab-Assistant is designed to be intuitive and user-friendly. When launched the user is met by three empty columns, each with a popup-menu at the top. The columns are called \emph{input}, \emph{output} and \emph{export}, each with a set of 3-4 different options. Using different combinations of these options, a variety of tasks can be performed.
+\input{inputs}
+\input{outputs}
+\input{exports}
+
+\section{Examples}
+
+\section{Conclusion}
+\input{conclusion}
+
 \end{document}
