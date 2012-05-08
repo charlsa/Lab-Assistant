@@ -2,7 +2,8 @@
 \ifdefined\master
 \else
 	\documentclass[twocolumn]{article}
-	%\input{../preamble}
+	\usepackage{graphicx}
+	\usepackage{float}
 	\begin{document}
 \fi
 
@@ -10,14 +11,34 @@
 Two methods of gathering output data are available
 
 \subsubsection*{Oscilloscope}
-The oscilloscope has two functions, picture and measurement. The picture option practicaly takes a copy of the oscilloscope screen and shows it in the panel. The measurement option is used for getting the graph and plot it without all extra information the oscilloscope shows. The plot is then displayed in the panel. After entering the \emph{GPIB address} for the oscilloscope, the \emph{Start} button will execute the option chosen.
+The oscilloscope has two functions, picture and measurement. The picture option practicaly takes a copy of the oscilloscope screen and shows it in the panel. The measurement option is used for getting the graph and plot it without all extra information the oscilloscope shows. The plot is then displayed in the panel. After entering the \emph{GPIB address} for the oscilloscope, the \emph{Start} button will execute the option chosen. (Fig. \ref{fig:osc})
+
+\begin{figure}[H]
+\centering
+\fbox{\includegraphics[width=6cm]{Figure/out_oscilloscope.png}}
+\caption{Oscilloscope output settings.}
+\label{fig:osc}
+\end{figure}
 
 \subsubsection*{Multimeter}
-The multimeter function is just a multimeter, that displays the value in the panel. It's not possible to store the value as it is with a picture.
+The multimeter function is just a multimeter, that displays the value in the panel. It's not possible to store the value as it is with a picture.  (Fig. \ref{fig:multi})
+
+\begin{figure}[H]
+\centering
+\fbox{\includegraphics[width=7cm]{Figure/Multimeter.png}}
+\caption{Multimeter output settings.}
+\label{fig:multi}
+\end{figure}
 
 \subsubsection*{Bode Graph}
-When the frequency sweep is chosen in the input panel it automaticaly chose the bode graph in the output panel. The Bode Graph only works with the frequency sweep as the start button is placed in the input panel. The plot is shown in the output panel.
+When the frequency sweep is chosen in the input panel it automaticaly chose the bode graph in the output panel. The Bode Graph only works with the frequency sweep as the start button is placed in the input panel. The plot is shown in the output panel. (Fig. \ref{fig:bode})
 
+\begin{figure}[H]
+\centering
+\fbox{\includegraphics[width=6cm]{Figure/bode_graph.png}}
+\caption{Bode plot output settings.}
+\label{fig:bode}
+\end{figure}
 
 
 \ifdefined\master
