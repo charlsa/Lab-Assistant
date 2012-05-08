@@ -101,14 +101,18 @@ try
     set(multi.display,'BackgroundColor', 'black');
 
     while takeValue
+        number = number + 1;
         fopen(gpibObj);
         pause(0.01);
         fprintf(gpibObj,voltORcurrent);
         temp = fscanf(gpibObj);
         set(multi.display,'string',[temp(1:15), unit]);
+        Meas(number) = str2double(temp);
         pause(0.5);
         fclose(gpibObj);
     end
+
+    print(Meas);
    
     catch err
         msgbox(err.getReport, 'Multimeter!', 'warn');
@@ -116,5 +120,20 @@ try
         fclose(instrfind);
         disp(err);
     end
+
+end
+
+function print(yAxis)
+
+% save figure
+tmp_figure = figure(10);
+stem(yAxis);
+xlabel('Number of steps');
+grid on;
+saveas(tmp_figure, 'figure', 'fig');
+close(tmp_figure);
+
+save 'data.mat' 'yAxis';
+
 
 end
