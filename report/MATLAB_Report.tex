@@ -119,14 +119,22 @@ Examiner: Qingxiang Zhao
 \end{center}
 
 \end{titlepage}
+\clearpage \thispagestyle{empty} ~\clearpage %baksida av försättsblad
 
 %%%%%%%%%%%%%%%%%%% Header %%%%%%%%%%%%%%%%%%%%%%%
 \pagestyle{fancy}
 \fancyhead[l]{Engineering Applications using Matlab\\Electric Lab-Assistant}
 \fancyhead[r]{Dan Helgesson, Albert Skog\\ \& Karl Westerberg}
 \fancyfoot[c]{}
-%%%%%%%%%%%%%%%%%%% Contents %%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%% Abstract %%%%%%%%%%%%%%%%%%%%%%
 \onecolumn
+\begin{abstract}
+For engineers, scholars and researchers, Matlab is one of the common tools for calculation and simulation. This report investigates the possibility of using Matlab to connect lab equipment for electronics with a personal computer, and thus streamlining lab work and documentation. The result is a software that clearly shows the possibilities are real, and that with minor further development could be used for actual lab work.
+\end{abstract}
+\clearpage
+%%%%%%%%%%%%%%%%%%% Contents %%%%%%%%%%%%%%%%%%%%%
+
 \tableofcontents
 \clearpage
 \setcounter{page}{1}
@@ -136,11 +144,12 @@ Examiner: Qingxiang Zhao
 
 %%%%%%%%%%%%%%%%%% Rapporten %%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
+
 \input{introduction}
 
 \section{Lab-Assistant}
+The user interface of Lab-Assistant (Appendix \ref{ui}) is designed to be intuitive and user-friendly. When launched the user is met by three empty columns, each with a popup-menu at the top. The columns are called \emph{input}, \emph{output} and \emph{export}, each with a set of 3-4 different options. Using different combinations of these options, a variety of tasks can be performed.
 
-The user interface of Lab-Assistant is designed to be intuitive and user-friendly. When launched the user is met by three empty columns, each with a popup-menu at the top. The columns are called \emph{input}, \emph{output} and \emph{export}, each with a set of 3-4 different options. Using different combinations of these options, a variety of tasks can be performed.
 \input{inputs}
 \input{outputs}
 \input{exports}
@@ -153,6 +162,13 @@ The user interface of Lab-Assistant is designed to be intuitive and user-friendl
 \onecolumn
 \appendix
 \section{Sample LaTeX output}
+\label{output}
 \lstinputlisting{report.tex}
+\clearpage
+\section{User Interface}
+\label{ui}
+\centering
+\includegraphics[width=16cm]{Figure/startup.png}
+
 
 \end{document}
