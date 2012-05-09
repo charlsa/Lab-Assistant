@@ -8,10 +8,10 @@
 	\begin{document}
 \fi
 \subsection{Exports}
-The program has four different choices for exporting the obtained data; copy to clipboard, save as image, create LaTeX report and create Microsoft Word report.  (Fig. \ref{fig:funcgen})
+The program has four different choices for exporting the obtained data; copy to clipboard, save as image, create LaTeX report and create Microsoft Word report.
 
 \subsubsection*{Clipboard}
-Copies the figure to clipboard. Textboxes enable the user to modify title and axis labels before copying. (Fig. \ref{fig:funcgen})
+Copies the figure to clipboard. Textboxes enable the user to modify title and axis labels before copying. (Figure \ref{fig:funcgen})
 
 \begin{figure}[H]
 \centering
@@ -21,7 +21,7 @@ Copies the figure to clipboard. Textboxes enable the user to modify title and ax
 \end{figure}
 
 \subsubsection*{Image}
-Saves the image to disk. Textboxes enable the user to modify title and axis labels before copying. (Fig. \ref{fig:img})
+Saves the image to disk. Textboxes enable the user to modify title and axis labels before copying. (Figure \ref{fig:img})
 
 \begin{figure}[H]
 \centering
@@ -31,7 +31,7 @@ Saves the image to disk. Textboxes enable the user to modify title and axis labe
 \end{figure}
 
 \subsubsection*{LaTeX}
-Generates LaTeX report containing the figure. \emph{Image name} textbox enables user to choose file name and format for the figure, which will be saved at the same location as the tex-file. \emph{Caption}, \emph{label} and \emph{width} properties are transferred to corresponding LaTeX commands, while tite and labels are applied directly to the figure before exporting. (Fig. \ref{fig:funcgen})
+Generates LaTeX report (Appendix \ref{output}) containing the figure. \emph{Image name} textbox enables user to choose file name and format for the figure, which will be saved at the same location as the tex-file. \emph{Caption}, \emph{label} and \emph{width} properties are transferred to corresponding LaTeX commands, while tite and labels are applied directly to the figure before exporting. (Figure \ref{fig:funcgen})
 
 \begin{figure}[H]
 \centering
@@ -41,14 +41,17 @@ Generates LaTeX report containing the figure. \emph{Image name} textbox enables 
 \end{figure}
 
 \subsubsection*{Word}
-Generates Microsoft Word report containing the figure. \emph{Title}, \emph{x-label} and \emph{y-label} overrides the settings of the figure and the caption is inserted on a centred line below. (Fig. \ref{fig:word})
+Generates Microsoft Word report containing the figure. \emph{Title}, \emph{x-label} and \emph{y-label} overrides the settings of the figure and the caption is inserted on a centred line below. (Figure \ref{fig:word})
 
 \begin{figure}[H]
 \centering
-\fbox{\includegraphics[width=6cm]{Figure/word.png}}
+\fbox{\includegraphics[width=4cm]{Figure/word.png}}
 \caption{Word export settings.}
 \label{fig:word}
 \end{figure}
+
+\subsubsection*{Workspace}
+The measurment data can be saved to a .mat-file. This export option has no settings other than save-location.
 
 \ifdefined\master
 \else
