@@ -27,7 +27,7 @@ function out_multimeter(out_panel)
             'ForegroundColor', [0 1 0.5],...
             'fontname', 'BankGothic Md BT',...
             'fontsize', 23,...
-            'position', [30 300 415 40]);    
+            'position', [30 450 415 40]);    
         
     multi.stop = uicontrol('Style', 'pushbutton',...
             'parent', out_panel,...
@@ -99,7 +99,8 @@ try
     set(multi.stop, 'Enable', 'on');
     pause(0.5);
     set(multi.display,'BackgroundColor', 'black');
-
+    number = 0;
+    
     while takeValue
         number = number + 1;
         fopen(gpibObj);
@@ -124,6 +125,7 @@ try
 end
 
 function print(yAxis)
+stem(yAxis);
 
 % save figure
 tmp_figure = figure(10);
@@ -134,6 +136,5 @@ saveas(tmp_figure, 'figure', 'fig');
 close(tmp_figure);
 
 save 'data.mat' 'yAxis';
-
 
 end
