@@ -1,15 +1,11 @@
 function main
 
-
     figure('Name','Lab Assistant',...
         'Position', [100 100 1000 700],...
         'ToolBar', 'none',...
         'MenuBar', 'none',...
         'Resize', 'off');
 
-    gui.figure = subplot('Position', [0.33 0.2 0.35 0.35]);
-    axis off;
-    
     %Generate background image
     bg_axes = axes('units','normalized','position',[0 0 1 1]);
     uistack(bg_axes,'bottom');
@@ -61,6 +57,9 @@ function main
            'String', 'Export|Clipboard|Image|LaTeX|Word',...
            'Position', [770 645 200 50],...
            'Callback', {@export_callback, gui});
+    
+    gui.figure = subplot('Position', [0.33 0.2 0.35 0.35]);
+    axis off;
 
 end
 
